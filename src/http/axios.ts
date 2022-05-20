@@ -26,7 +26,7 @@ Fetch.interceptors.request.use(function (config: AxiosRequestConfig) {
 //请求拦截器
 Fetch.interceptors.response.use(
     (res: AxiosResponse) => {
-        return res;
+        return res.data;
     },
     (err: any) => {
         if (err.response.data) {

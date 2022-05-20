@@ -1,15 +1,19 @@
+import { RouteRecordRaw } from "vue-router";
 import { IMenuItem, ITreeMenuItem, IUserRouterItem } from "../interface/menu";
 
 const modules = import.meta.glob("../view/**/**.vue");
 
+interface ICache {
+  [key: number]: ITreeMenuItem
+}
 /**
  * @description 转换树形结构菜单
- * @param menuList 
+ * @param menuList 菜单列表
  * @author JJYang
  */
 export const getTreeMenus = (menuList: IMenuItem[]): ITreeMenuItem[] => {
   const treeMenuList = [] as ITreeMenuItem[];
-  const cache: any = {};
+  const cache: ICache = {};
 
   menuList.forEach((treeItem) => {
     cache[treeItem.rid] = treeItem;
@@ -32,14 +36,14 @@ export const getTreeMenus = (menuList: IMenuItem[]): ITreeMenuItem[] => {
 
 /**
  * @description 转化动态路由
- * @param userRouters
- * @param parentName
+ * @param userRouters --用户路由的树形列表
+ * @param parentName --父级路由的name
  * @author JJYang
  */
 export const generateRouter = (userRouters: ITreeMenuItem[], parentName: string | undefined = undefined) => {
-  let newRouters = userRouters.map((router: ITreeMenuItem) => {
+  let newRouters: RouteRecordRaw[] = userRouters.map((router: ITreeMenuItem) => {
     const isParent = router.pid === 0 && router.children;
-    let routes: IUserRouterItem;
+    let routes: RouteRecordRaw;
     if (isParent) {
       routes = {
         path: "/" + router.path,
@@ -70,6 +74,18 @@ export const generateRouter = (userRouters: ITreeMenuItem[], parentName: string 
     return routes;
   });
   return newRouters;
+};
+
+export const flatter = (target: any) => {
+  let result: any = [];
+  target.forEach((item: any) => {
+    if (Array.isArray(item)) {
+      result = result.concat(flatter(item));
+    } else {
+      result.push(item);
+    }
+  });
+  return result;
 };
 
 

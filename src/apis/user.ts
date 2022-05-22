@@ -3,7 +3,12 @@ import { IMenuItem } from "../interface/menu";
 
 import router from "../router/index";
 
-export const userLogin = (data: IUserLoginReq) => {
+/**
+ * @description 用户登录
+ * @param data 
+ * @interface IUserLoginReq
+ */
+export const userLoginApi = (data: IUserLoginReq) => {
     return Fetch.request<IUserLoginRes>({
         url: '/login',
         method: 'post',
@@ -21,6 +26,11 @@ export interface IUserLoginRes {
     username: string;
 }
 
+/**
+ * @description 添加用户
+ * @param data 
+ * @interface IUserInsertReq
+ */
 export const insertUserApi = (data: IUserInsertReq) => {
     return Fetch.request({
         url: '/insertUser',
@@ -35,7 +45,10 @@ export interface IUserInsertReq extends IUserLoginReq {
     position: string
 }
 
-
+/**
+ * @description 查找指定用户
+ * @param id 
+ */
 export const findUserApi = (id: string) => {
     return Fetch.request<IUserInsertReq>({
         url: '/findUser',
@@ -46,6 +59,12 @@ export const findUserApi = (id: string) => {
     })
 }
 
+/**
+ * @description 编辑用户
+ * @param id 
+ * @param  data
+ * @interface IUserInsertReq
+ */
 export const updateUserApi = (id: string, data: IUserInsertReq) => {
     return Fetch.request({
         url: '/updateUser',
@@ -56,7 +75,9 @@ export const updateUserApi = (id: string, data: IUserInsertReq) => {
     })
 }
 
-
+/**
+ * @description 获取用户列表
+ */
 export const getUserListApi = () => {
     return Fetch.request<IGetUserListItem[]>({
         url: '/getUserList',
@@ -72,6 +93,10 @@ export interface IGetUserListItem extends IUserLoginReq {
 }
 
 
+/**
+ * @description 获取用户菜单
+ * @param uid 
+ */
 export const getUserMenu = (uid: string) => {
     return Fetch.request<IMenuItem[]>({
         url: '/getUserMenu',
@@ -84,7 +109,9 @@ export const getUserMenu = (uid: string) => {
 
 };
 
-// 获取角色列表
+/**
+ * @description 获取角色列表
+ */
 export const getRoleList = () => {
     return Fetch.request<IGetRoleItem[]>({
         url: '/getRoleList',
@@ -100,7 +127,11 @@ export interface IGetRoleItem {
     menu: number[];
 }
 
-// 获取角色菜单
+
+/**
+ * @description 获取角色菜单
+ * @param id 
+ */
 export const getRoleMenu = (id: string) => {
     return Fetch.request({
         url: '/getRoleMenu',
@@ -111,7 +142,9 @@ export const getRoleMenu = (id: string) => {
     });
 };
 
-// 获取全部菜单
+/**
+ * @description 获取菜单列表
+ */
 export const getMenuList = () => {
     return Fetch.request({
         url: '/getMenuList',
@@ -121,7 +154,11 @@ export const getMenuList = () => {
     });
 };
 
-// 编辑菜单
+/**
+ * @description 编辑菜单
+ * @param data
+ * @interface IMenuItem
+ */
 export const updateMenuApi = (data: IMenuItem) => {
     return Fetch.request({
         url: '/updateMenu',
@@ -132,7 +169,11 @@ export const updateMenuApi = (data: IMenuItem) => {
     });
 };
 
-// 添加父级菜单
+/**
+ * @description 添加父/子级菜单 区别：是否有传pid
+ * @param data
+ * @interface IInertMenuItem
+ */
 export const insertParentMenuApi = (data: IInertMenuItem) => {
     return Fetch.request({
         url: '/insertParentMenu',
@@ -149,8 +190,12 @@ export interface IInertMenuItem {
     pid?: number;
 }
 
-// 更新角色菜单
-export const updateRoleMenu = (data: any) => {
+/**
+ * @description 更新角色菜单
+ * @param data
+ * @interface IUpdateRoleMenu
+ */
+export const updateRoleMenuApi = (data: IUpdateRoleMenu) => {
     return Fetch.request({
         url: '/updateRoleMenu',
         method: 'post',
@@ -158,5 +203,8 @@ export const updateRoleMenu = (data: any) => {
     }).catch((err) => {
         throw err;
     });
-
 };
+export interface IUpdateRoleMenu {
+    roleMenuIds: number[];
+    id: string;
+}

@@ -36,13 +36,13 @@ export const getTreeMenus = (menuList: IMenuItem[]): ITreeMenuItem[] => {
 
 /**
  * @description 转化动态路由
- * @param userRouters --用户路由的树形列表
+ * @param userRouters -用户路由的树形列表
  * @author JJYang
  */
 export const generateRouter = (userRouters: ITreeMenuItem[]) => {
   let newRouters: RouteRecordRaw[] = userRouters.map((router: ITreeMenuItem) => {
     const isParent = router.pid === 0 && router.children;
-    const fileName = router.path.match(/\/([^/]*)$/)![1]
+    const fileName = router.path.match(/\/([^/]*)$/)![1];
     let routes: RouteRecordRaw = {
       path: router.path,
       name: router.name,
@@ -88,7 +88,12 @@ export function flatter(target: any) {
   }
 };
 
-
+/**
+ * @description 数组扁平化
+ * @param target -目标值
+ * @param map -缓存容器
+ * @author JJYang
+ */
 export const deepClone = (target: any, map: any = new Map()) => {
   if (typeof target === 'object' && target !== null) {
     const cache = map.get(target);

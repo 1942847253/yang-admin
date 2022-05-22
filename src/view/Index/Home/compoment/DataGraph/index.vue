@@ -24,29 +24,29 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, nextTick } from "vue";
+import { defineComponent, ref, onMounted, nextTick, onActivated } from "vue";
 import * as echarts from "echarts";
 import { option1, option2 } from "./baseData";
 export default defineComponent({
   setup() {
     const activeName = ref("first");
+    let chart1: echarts.ECharts = {} as echarts.ECharts;
+    let chart2: echarts.ECharts = {} as echarts.ECharts;
     onMounted(() => {
       initCharts();
     });
 
+    onActivated(() => {});
+
     const initCharts = (): void => {
       nextTick(() => {
-        let myCharts = echarts.init(
-          document.getElementById("development-map")!
-        );
-        let myCharts2 = echarts.init(
-          document.getElementById("development-map2")!
-        );
-        myCharts.setOption(option2);
-        myCharts2.setOption(option1);
+        chart1 = echarts.init(document.getElementById("development-map")!);
+        chart2 = echarts.init(document.getElementById("development-map2")!);
+        chart1.setOption(option2);
+        chart2.setOption(option1);
         window.onresize = function () {
-          myCharts.resize();
-          myCharts2.resize();
+          chart1.resize();
+          chart2.resize();
         };
       });
     };

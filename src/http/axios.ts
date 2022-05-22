@@ -36,6 +36,7 @@ Fetch.interceptors.response.use(
                 message: err.response.data,
                 type: "error",
             });
+            // 接口鉴权出错 跳至登录页
             if (err.response.status === 401) {
                 localStorage.removeItem("token");
                 localStorage.removeItem("uid");

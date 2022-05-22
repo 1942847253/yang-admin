@@ -12,6 +12,8 @@
           <el-input
             size="large"
             v-model="ruleForm.username"
+            placeholder="用户名：admin"
+            @change="handleEnter"
             autocomplete="off"
             prefix-icon="UserFilled"
           />
@@ -22,6 +24,8 @@
             v-model="ruleForm.password"
             type="password"
             autocomplete="off"
+            placeholder="密码：123456"
+            @change="handleEnter"
             prefix-icon="Key"
           />
         </el-form-item>
@@ -43,7 +47,7 @@
 import { defineComponent, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { rules } from "./baseData";
-import { IUserLoginReq, IUserLoginRes, userLogin } from "../../apis/user";
+import { IUserLoginReq, IUserLoginRes, userLoginApi } from "../../apis/user";
 import { useLocalStorage } from "src/hooks/useLocalStorage";
 import useLoging from "src/hooks/useLoging";
 
@@ -55,7 +59,7 @@ export default defineComponent({
     const router = useRouter();
     const ruleForm = reactive<IUserLoginReq>({
       username: "admin",
-      password: "123456",
+      password: "",
     });
 
     const { setLocalStorage } = useLocalStorage();
@@ -64,7 +68,7 @@ export default defineComponent({
     const submitForm = async () => {
       ruleFormRef.value.validate(async (valid: boolean) => {
         valid &&
-          setLoging<IUserLoginReq, IUserLoginRes>(userLogin, ruleForm).then(
+          setLoging<IUserLoginReq, IUserLoginRes>(userLoginApi, ruleForm).then(
             (res) => {
               setLocalStorage("token", res.token);
               setLocalStorage("uid", res.uid);
@@ -74,12 +78,17 @@ export default defineComponent({
       });
     };
 
+    const handleEnter = () => {
+      submitForm();
+    };
+
     return {
       rules,
       ruleFormRef,
       ruleForm,
       isLoging,
       submitForm,
+      handleEnter,
     };
   },
 });

@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { useLocalStorage } from 'src/hooks/useLocalStorage';
 import { getUserMenu } from '../apis/user';
 import { IMenuItem, INavItem, ITreeMenuItem } from '../interface/menu';
 import { flatter, getTreeMenus } from '../utils/index'
@@ -13,6 +14,10 @@ export const useUserStore = defineStore('user', {
         }
     },
     actions: {
+        async getMenuList() {
+            const { getLocalStorage } = useLocalStorage();
+            this.menuList = await getUserMenu(getLocalStorage('uid')) as IMenuItem[];
+        },
         // 获取用户树形结构菜单
         async setUserRouters(uid: string) {
             const menuList = await getUserMenu(uid) as IMenuItem[];
@@ -49,8 +54,6 @@ export const useUserStore = defineStore('user', {
         cloneOtherNav(currrentPath: string) {
             this.navList = [{ title: "首页", path: "/index/home" }];
             this.setNavList(currrentPath);
-            console.log(this.navList);
-
         }
 
     }

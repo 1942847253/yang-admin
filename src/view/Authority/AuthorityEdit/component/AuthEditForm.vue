@@ -32,7 +32,7 @@ import {
   getMenuList,
   getRoleMenu,
   IGetRoleItem,
-  updateRoleMenu,
+  updateRoleMenuApi,
 } from "src/apis/user";
 import { IMenuItem, ITreeMenuItem } from "src/interface/menu";
 import { getTreeMenus } from "src/utils/index";
@@ -96,7 +96,7 @@ export default defineComponent({
         roleMenuIds: checkedRoleIds,
         id: props.roleListItem._id,
       };
-      await updateRoleMenu(data);
+      await updateRoleMenuApi(data);
       emit("authEditFormVisibleClose");
     };
 

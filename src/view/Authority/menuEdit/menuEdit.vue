@@ -42,7 +42,7 @@
           <div class="menu-iocn">
             <el-icon style="color: #1890ff; font-size: 20px"><Menu /></el-icon>
           </div>
-          <span>编辑菜单：{{ checkedMenu.title }}</span>
+          <span>编辑菜单：{{ checkedMenu && checkedMenu.title }}</span>
         </div>
       </template>
       <div class="menu-form">
@@ -151,6 +151,7 @@ export default defineComponent({
     };
     const menuAddSuccess = () => {
       getMenuListData();
+      store.getMenuList();
     };
 
     const handleCommand = (command: string) => {
@@ -172,7 +173,7 @@ export default defineComponent({
           });
           checkedMenu.value = {} as IMenuItem;
           localStorage.removeItem("menuCache");
-          store.setUserRouters(getLocalStorage("uid"));
+          store.getMenuList();
           getMenuListData();
         }
       });

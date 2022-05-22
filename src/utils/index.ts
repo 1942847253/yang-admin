@@ -37,56 +37,81 @@ export const getTreeMenus = (menuList: IMenuItem[]): ITreeMenuItem[] => {
 /**
  * @description 转化动态路由
  * @param userRouters --用户路由的树形列表
- * @param parentName --父级路由的name
  * @author JJYang
  */
-export const generateRouter = (userRouters: ITreeMenuItem[], parentName: string | undefined = undefined) => {
+export const generateRouter = (userRouters: ITreeMenuItem[]) => {
   let newRouters: RouteRecordRaw[] = userRouters.map((router: ITreeMenuItem) => {
     const isParent = router.pid === 0 && router.children;
-    let routes: RouteRecordRaw;
+    const fileName = router.path.match(/\/([^/]*)$/)![1]
+    let routes: RouteRecordRaw = {
+      path: router.path,
+      name: router.name,
+      meta: {
+        icon: router.icon,
+      },
+      component:
+        modules[
+            /* @vite-ignore */ `../view${router.path}/${fileName}.vue`
+        ],
+    };
     if (isParent) {
-      routes = {
-        path: "/" + router.path,
-        redirect: "/" + router.path + "/" + router.children![0].path,
-        name: router.name,
-        meta: {
-          icon: router.icon,
-        },
-        component: () =>
-          import(/* @vite-ignore */ `../components/ParentView/ParentView.vue`),
-      };
-    } else {
-      routes = {
-        path: router.path,
-        name: router.name,
-        meta: {
-          icon: router.icon,
-        },
-        component:
-          modules[
-            /* @vite-ignore */ `../view/${parentName}/${router.name}/${router.name}.vue`
-          ],
-      };
+      routes.redirect = router.children![0].path;
+      routes.component = () =>
+        import(/* @vite-ignore */ `../components/ParentView/ParentView.vue`)
     }
     if (routes && router.children) {
-      routes.children = generateRouter(router.children, router.name);
+      routes.children = generateRouter(router.children);
     }
     return routes;
   });
   return newRouters;
 };
 
-export const flatter = (target: any) => {
-  let result: any = [];
-  target.forEach((item: any) => {
-    if (Array.isArray(item)) {
-      result = result.concat(flatter(item));
-    } else {
-      result.push(item);
-    }
-  });
-  return result;
+/**
+ * @description 数组扁平化
+ * @param target --目标数组
+ * @author JJYang
+ */
+export function flatter(target: any) {
+  if (Array.isArray(target)) {
+    let result: any = [];
+    target.forEach((item) => {
+      if (Array.isArray(item)) {
+        result = result.concat(flatter(item));
+      } else {
+        result.push(item);
+      }
+    });
+    return result;
+  } else {
+    return target
+  }
 };
+
+
+export const deepClone = (target: any, map: any = new Map()) => {
+  if (typeof target === 'object' && target !== null) {
+    const cache = map.get(target);
+    if (cache) {
+      return cache;
+    }
+    const isArray = Array.isArray(target);
+    let result: any = isArray ? [] : {};
+    map.set(target, result);
+    if (isArray) {
+      target.forEach((item, index) => {
+        result[index] = deepClone(item, map);
+      })
+    } else {
+      Object.keys(target).forEach(key => {
+        result[key] = deepClone(target[key], map);
+      })
+    }
+    return result;
+  } else {
+    return target
+  }
+}
 
 
 

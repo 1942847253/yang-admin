@@ -42,10 +42,10 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
-import { validatePass, validatePass2 } from "./baseData";
+import { rules } from "./baseData";
 import { IUserLoginReq, IUserLoginRes, userLogin } from "../../apis/user";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
-import useLoging from "@/hooks/useLoging";
+import { useLocalStorage } from "src/hooks/useLocalStorage";
+import useLoging from "src/hooks/useLoging";
 
 export default defineComponent({
   name: "Login",
@@ -53,33 +53,24 @@ export default defineComponent({
   setup() {
     const ruleFormRef = ref();
     const router = useRouter();
-    const isLoging = ref<boolean>(false);
     const ruleForm = reactive<IUserLoginReq>({
       username: "admin",
       password: "123456",
     });
 
     const { setLocalStorage } = useLocalStorage();
-    const { setLoging } = useLoging();
+    const { isLoging, setLoging } = useLoging();
 
-    const rules = reactive({
-      username: [{ validator: validatePass, trigger: "blur" }],
-      password: [{ validator: validatePass2, trigger: "blur" }],
-    });
-
-    const submitForm = () => {
+    const submitForm = async () => {
       ruleFormRef.value.validate(async (valid: boolean) => {
-        if (valid) {
-          setLoging<IUserLoginReq, IUserLoginRes>(
-            userLogin,
-            ruleForm,
-            isLoging
-          ).then((res: IUserLoginRes) => {
-            setLocalStorage("token", res.token);
-            setLocalStorage("uid", res.uid);
-            router.replace("/");
-          });
-        }
+        valid &&
+          setLoging<IUserLoginReq, IUserLoginRes>(userLogin, ruleForm).then(
+            (res) => {
+              setLocalStorage("token", res.token);
+              setLocalStorage("uid", res.uid);
+              router.replace("/");
+            }
+          );
       });
     };
 

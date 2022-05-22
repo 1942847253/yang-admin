@@ -1,8 +1,9 @@
 import { ElMessage } from "element-plus";
-import { Ref } from "vue";
+import { ref } from "vue";
 
 const useLoging = () => {
-    async function setLoging<T, D>(loginApi: (data: T) => Promise<D>, data: T, isLoging: Ref<boolean>): Promise<Awaited<D>> {
+    const isLoging = ref<boolean>(false);
+    async function setLoging<T, D>(loginApi: (data: T) => Promise<D>, data: T): Promise<Awaited<D>> {
         try {
             isLoging.value = true;
             const result = await loginApi(data);
@@ -18,6 +19,7 @@ const useLoging = () => {
         }
     }
     return {
+        isLoging,
         setLoging,
     }
 }

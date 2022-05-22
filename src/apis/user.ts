@@ -21,6 +21,56 @@ export interface IUserLoginRes {
     username: string;
 }
 
+export const insertUserApi = (data: IUserInsertReq) => {
+    return Fetch.request({
+        url: '/insertUser',
+        method: 'post',
+        data: data
+    }).catch((err) => {
+        throw err
+    })
+}
+
+export interface IUserInsertReq extends IUserLoginReq {
+    position: string
+}
+
+
+export const findUserApi = (id: string) => {
+    return Fetch.request<IUserInsertReq>({
+        url: '/findUser',
+        method: 'post',
+        data: { id }
+    }).catch((err) => {
+        throw err
+    })
+}
+
+export const updateUserApi = (id: string, data: IUserInsertReq) => {
+    return Fetch.request({
+        url: '/updateUser',
+        method: 'post',
+        data: { id, data }
+    }).catch((err) => {
+        throw err
+    })
+}
+
+
+export const getUserListApi = () => {
+    return Fetch.request<IGetUserListItem[]>({
+        url: '/getUserList',
+        method: 'post',
+    }).catch((err) => {
+        throw err
+    })
+}
+
+export interface IGetUserListItem extends IUserLoginReq {
+    _id: string;
+    position: IGetRoleItem;
+}
+
 
 export const getUserMenu = (uid: string) => {
     return Fetch.request<IMenuItem[]>({
@@ -70,6 +120,34 @@ export const getMenuList = () => {
         throw err;
     });
 };
+
+// 编辑菜单
+export const updateMenuApi = (data: IMenuItem) => {
+    return Fetch.request({
+        url: '/updateMenu',
+        method: 'post',
+        data: data
+    }).catch((err) => {
+        throw err;
+    });
+};
+
+// 添加父级菜单
+export const insertParentMenuApi = (data: IInertMenuItem) => {
+    return Fetch.request({
+        url: '/insertParentMenu',
+        method: 'post',
+        data: data
+    }).catch((err) => {
+        throw err;
+    });
+};
+export interface IInertMenuItem {
+    icon: string;
+    path: string;
+    title: string;
+    pid?: number;
+}
 
 // 更新角色菜单
 export const updateRoleMenu = (data: any) => {

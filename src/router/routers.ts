@@ -14,7 +14,7 @@ const Routers: RouteRecordRaw[] = [
   {
     path: "/login",
     name: "Login",
-    component: () => import(/* chunkName: login */ "@/view/login/login.vue"),
+    component: () => import(/* chunkName: login */ "src/view/login/login.vue"),
   },
   {
     path: "/",

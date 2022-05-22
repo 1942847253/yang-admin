@@ -1,6 +1,6 @@
 <template>
   <el-sub-menu
-    v-if="item.children && item.children.length > 1"
+    v-if="item.children && item.children.length >= 1"
     :index="index + Date.now()"
   >
     <template #title>
@@ -14,16 +14,13 @@
 
   <el-menu-item
     v-else-if="item.children && item.children.length === 1"
-    :index="item.children[0].link || '/' + item.children[0].path"
+    :index="item.children[0].path"
   >
     <el-icon><component :is="item.children[0].icon"></component></el-icon>
     <template #title> {{ item.children[0].title }}</template>
   </el-menu-item>
 
-  <el-menu-item
-    v-else-if="item && item.pid !== 0"
-    :index="item.link || '/' + item.path"
-  >
+  <el-menu-item v-else-if="item && item.pid !== 0" :index="item.path">
     <el-icon><component :is="item.icon"></component></el-icon>
     <template #title>{{ item.title }}</template>
   </el-menu-item>

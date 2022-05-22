@@ -22,27 +22,35 @@
       </el-form>
     </Card>
     <Card>
-      <el-button type="primary" style="margin-bottom: 10px" @click="onSubmit"
+      <el-button
+        type="primary"
+        style="margin-bottom: 10px"
+        @click="handleAddUser"
         >+ 添加</el-button
       >
-      <el-table :data="tableData" fixed="right" size="large">
+      <el-table :data="userList" :columns="Column" fixed="right" size="large">
+        <el-table-column prop="_id" label="id" />
+
         <el-table-column
           v-for="(item, index) in Column"
           :prop="item.key"
           :label="item.title"
-          :width="item.width"
           :key="index"
         />
+        <el-table-column label="角色">
+          <template #default="scope">
+            {{ scope.row.position.name }}
+          </template>
+        </el-table-column>
+        <el-table-column label="描述">
+          <template #default="scope">
+            {{ scope.row.position.describe }}
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="150" fixed="right">
           <template #default="scope">
-            <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
+            <el-button size="small" @click="handleEdit(scope.row)"
               >编辑</el-button
-            >
-            <el-button
-              size="small"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
-              >删除</el-button
             >
           </template>
         </el-table-column>
@@ -54,39 +62,78 @@
         :total="1000"
       />
     </Card>
+    <UserAdd
+      :userAddVisible="userAddVisible"
+      :uId="uId"
+      @userAddVisibleClose="userAddVisibleClose"
+      @userAddSuccess="userAddSuccess"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import Card from "@/components/Card/Card.vue";
-import { defineComponent, reactive, onMounted } from "vue";
-import { Column, tableData } from "./baseData";
+import Card from "src/components/Card/Card.vue";
+import { defineComponent, reactive, onMounted, ref } from "vue";
+import { Column } from "./baseData";
+import { getUserListApi, IGetUserListItem } from "../../../apis/user";
+import UserAdd from "./component/UserAdd.vue";
 export default defineComponent({
-  name: "UserList",
+  name: "userList",
   components: {
     Card,
+    UserAdd,
   },
   setup() {
+    const userList = ref<IGetUserListItem[]>([]);
+    const userAddVisible = ref<boolean>(false);
+    const uId = ref<string>("");
     const formInline = reactive({
       user: "",
       region: "",
     });
 
-    onMounted(() => {});
+    onMounted(() => {
+      getUserList();
+    });
 
-    const handleEdit = (index: number, row: any) => {};
+    const handleAddUser = () => {
+      userAddVisible.value = true;
+    };
+
+    const userAddVisibleClose = () => {
+      uId.value = "";
+      userAddVisible.value = false;
+    };
+
+    const getUserList = async () => {
+      userList.value = await getUserListApi();
+    };
+
+    const userAddSuccess = () => {
+      getUserList();
+    };
+
+    const handleEdit = (row: IGetUserListItem) => {
+      userAddVisible.value = true;
+      uId.value = row._id;
+    };
 
     const handleDelete = (index: number, row: any) => {};
 
     const onSubmit = () => {};
 
     return {
-      formInline,
-      tableData,
+      uId,
       Column,
+      userList,
+      formInline,
+      userAddVisible,
       onSubmit,
       handleEdit,
       handleDelete,
+      handleAddUser,
+      userAddVisibleClose,
+      userAddSuccess,
     };
   },
 });

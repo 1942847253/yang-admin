@@ -12,9 +12,9 @@
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
     "skipLibCheck": true,
-    "baseUrl":"./",
-    "paths":{
-      "@/*":["src/*"]
+    "baseUrl": "./",
+    "paths": {
+      "src": ["./src/*"]
     },
     "types": [  "vite/client" ]
   },

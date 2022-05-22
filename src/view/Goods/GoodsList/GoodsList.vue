@@ -58,11 +58,11 @@
 </template>
 
 <script lang="ts">
-import Card from "@/components/Card/Card.vue";
+import Card from "src/components/Card/Card.vue";
 import { reactive, onMounted, defineComponent } from "vue";
 import { Column, tableData } from "./baseData";
 export default defineComponent({
-  name: "GoodsList",
+  name: "goodsList",
   components: {
     Card,
   },

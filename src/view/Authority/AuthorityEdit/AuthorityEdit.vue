@@ -34,14 +34,14 @@
 </template>
 
 <script lang="ts">
-import Card from "@/components/Card/Card.vue";
+import Card from "src/components/Card/Card.vue";
 import { defineComponent, onMounted, ref } from "vue";
 import { getRoleList, IGetRoleItem } from "../../../apis/user";
 import AuthEditForm from "./component/AuthEditForm.vue";
 import { Column } from "./baseData";
 
 export default defineComponent({
-  name: "AuthorityEdit",
+  name: "authorityEdit",
   components: {
     Card,
     AuthEditForm,
@@ -72,18 +72,12 @@ export default defineComponent({
       roleListItem.value = row;
     };
 
-    const handleDelete = (row: IGetRoleItem): void => {};
-
-    const onSubmit = (): void => {};
-
     return {
       roleListDate,
       authEditFormVisible,
       roleListItem,
       Column,
-      onSubmit,
       handleEdit,
-      handleDelete,
       roleMenuUpdateSuccess,
       authEditFormVisibleClose,
     };

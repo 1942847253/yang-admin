@@ -4,3 +4,5 @@ declare module '*.vue' {
   export default Component
 }
 
+
+

@@ -33,9 +33,9 @@ import {
   getRoleMenu,
   IGetRoleItem,
   updateRoleMenu,
-} from "@/apis/user";
-import { IMenuItem, ITreeMenuItem } from "@/interface/menu";
-import { getTreeMenus } from "@/utils/index";
+} from "src/apis/user";
+import { IMenuItem, ITreeMenuItem } from "src/interface/menu";
+import { getTreeMenus } from "src/utils/index";
 export default defineComponent({
   name: "AuthEditForm",
   components: {},
@@ -83,8 +83,6 @@ export default defineComponent({
       roleMenu.value = data;
     };
 
-    const getCheckedKeys = () => {};
-
     const confirmClick = async () => {
       let checkedRoleIds: number[] = [];
       treeRef.value
@@ -110,7 +108,6 @@ export default defineComponent({
       menuListData,
       defaultProps,
       roleMenu,
-      getCheckedKeys,
       treeRef,
       confirmClick,
       cancelClick,

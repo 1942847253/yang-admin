@@ -55,6 +55,17 @@
       line-height: 45px;
       margin-left: 2px;
     }
+    .nav-config {
+      cursor: pointer;
+      padding: 12px 5px;
+      height: 45px;
+      font-size: 17px;
+      line-height: 45px;
+      margin-left: 2px;
+    }
+    .nav-config:hover {
+      background-color: #f6f6f6;
+    }
     .to-scroll-left:hover {
       background-color: #f6f6f6;
     }

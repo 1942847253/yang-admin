@@ -11,10 +11,10 @@
         <el-icon><ArrowLeft /></el-icon>
       </span>
       <div class="tag-list" id="scroll-Box">
-        <VueDraggableNext animation="300" :list="navList">
+        <VueDraggableNext animation="300" :list="store.navList">
           <transition-group>
             <el-tag
-              v-for="element of navList"
+              v-for="element of store.navList"
               :key="element.path"
               size="large"
               :effect="element.path == current ? 'dark' : null"
@@ -34,6 +34,26 @@
       <span @click="scrollToX('right')" class="to-scroll-right">
         <el-icon><ArrowRight /></el-icon>
       </span>
+      <el-dropdown trigger="click" @command="handleConfigNav">
+        <span class="nav-config">
+          <el-icon><ArrowDown /></el-icon>
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item
+              :disabled="current === '/index/home'"
+              command="close-current"
+              >关闭当前</el-dropdown-item
+            >
+            <el-dropdown-item
+              :disabled="store.navList.length <= 2 && current !== '/index/home'"
+              command="close-other"
+              >关闭其他</el-dropdown-item
+            >
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+
       <svg
         @click="toggleFullScreen"
         class="fullS-screen"
@@ -72,7 +92,6 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const store = useUserStore();
-    const navList = store.navList;
 
     const handleCommand = () => {
       localStorage.clear();
@@ -85,17 +104,29 @@ export default defineComponent({
 
     const closeNav = (path: string) => {
       const currentPath = router.currentRoute.value.fullPath;
-      navList.forEach((item, index) => {
+      store.navList.forEach((item, index) => {
         if (path === item.path) {
           if (currentPath === item.path) {
-            const isLast = index === navList.length - 1;
+            const isLast = index === store.navList.length - 1;
             isLast
-              ? router.push(navList[index - 1].path)
-              : router.push(navList[index + 1].path);
+              ? router.push(store.navList[index - 1].path)
+              : router.push(store.navList[index + 1].path);
           }
           store.closeNav(index);
         }
       });
+    };
+
+    const handleConfigNav = (command: string) => {
+      console.log(command);
+      switch (command) {
+        case "close-current":
+          closeNav(router.currentRoute.value.fullPath);
+          break;
+        case "close-other":
+          store.cloneOtherNav(router.currentRoute.value.fullPath);
+          break;
+      }
     };
 
     const changeCollapse = () => {
@@ -124,7 +155,6 @@ export default defineComponent({
     return {
       store,
       circleUrl,
-      navList,
       fullScreenIcon,
       current: computed(() => router.currentRoute.value.path),
       handleCommand,
@@ -133,6 +163,7 @@ export default defineComponent({
       changeCollapse,
       toggleFullScreen,
       scrollToX,
+      handleConfigNav,
     };
   },
 });

@@ -1,5 +1,6 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import { ElMessage } from "element-plus";
+import router from "src/router/index";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
 
@@ -36,7 +37,9 @@ Fetch.interceptors.response.use(
                 type: "error",
             });
             if (err.response.status === 401) {
-
+                localStorage.removeItem("token");
+                localStorage.removeItem("uid");
+                router.replace("/login");
             }
         }
 

@@ -20,7 +20,7 @@ export const useUserStore = defineStore('user', {
             this.userRouters = getTreeMenus(menuList);
         },
 
-        //新增nav导航
+        //关闭nav导航
         closeNav(index: number) {
             this.navList.splice(index, 1);
         },
@@ -43,7 +43,16 @@ export const useUserStore = defineStore('user', {
             if (!isBeing && navItem && navItem.path) {
                 this.navList.push(navItem)
             }
+        },
+
+        //关闭当前标签和首页标签之外的所有标签
+        cloneOtherNav(currrentPath: string) {
+            this.navList = [{ title: "首页", path: "/index/home" }];
+            this.setNavList(currrentPath);
+            console.log(this.navList);
+
         }
+
     }
 })
 

@@ -36,6 +36,31 @@ export default defineConfig({
     //     rewrite: (path: string) => path.replace(/^\/api/, '')
     //   }
     // }
-  }
+  },
+  build: {
+    outDir: "admin",
+    rollupOptions: {
+      output: {
+        assetFileNames: "[ext]/[name].[hash].[ext]",
+        chunkFileNames: "js/[name].[hash].js",
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            return id
+              .toString()
+              .split("node_modules/")[1]
+              .split("/")[0]
+              .toString();
+          }
+        },
+      },
+    },
+    terserOptions: {
+      compress: {
+        keep_infinity: true,
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
+  },
 });
 

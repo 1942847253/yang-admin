@@ -66,7 +66,6 @@ export const generateRouter = (userRouters: ITreeMenuItem[]) => {
     }
     return routes;
   });
-  console.log(newRouters);
   return newRouters;
 };
 

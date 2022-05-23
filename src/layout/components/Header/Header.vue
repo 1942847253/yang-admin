@@ -118,7 +118,6 @@ export default defineComponent({
     };
 
     const handleConfigNav = (command: string) => {
-      console.log(command);
       switch (command) {
         case "close-current":
           closeNav(router.currentRoute.value.fullPath);

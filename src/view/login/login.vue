@@ -13,7 +13,6 @@
             size="large"
             v-model="ruleForm.username"
             placeholder="用户名：admin"
-            @change="handleEnter"
             autocomplete="off"
             prefix-icon="UserFilled"
           />
@@ -25,7 +24,7 @@
             type="password"
             autocomplete="off"
             placeholder="密码：123456"
-            @change="handleEnter"
+            @keyup.enter.navtive="submitForm"
             prefix-icon="Key"
           />
         </el-form-item>
@@ -34,7 +33,7 @@
             style="width: 100%; height: 40px; font-size: 15px; margin-top: 10px"
             type="primary"
             :loading="isLoging"
-            @click="submitForm()"
+            @click="submitForm"
             >登 录</el-button
           >
         </el-form-item>
@@ -78,17 +77,12 @@ export default defineComponent({
       });
     };
 
-    const handleEnter = () => {
-      submitForm();
-    };
-
     return {
       rules,
       ruleFormRef,
       ruleForm,
       isLoging,
       submitForm,
-      handleEnter,
     };
   },
 });

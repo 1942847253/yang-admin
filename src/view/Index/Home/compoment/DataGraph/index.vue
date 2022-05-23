@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, nextTick, onActivated } from "vue";
-import * as echarts from "echarts";
+import * as echarts from "echarts/core";
 import { option1, option2 } from "./baseData";
 export default defineComponent({
   setup() {
@@ -36,18 +36,20 @@ export default defineComponent({
       initCharts();
     });
 
-    onActivated(() => {});
+    onActivated(() => {
+      chart2.resize();
+    });
 
     const initCharts = (): void => {
-      nextTick(() => {
-        chart1 = echarts.init(document.getElementById("development-map")!);
-        chart2 = echarts.init(document.getElementById("development-map2")!);
-        chart1.setOption(option2);
-        chart2.setOption(option1);
-        window.onresize = function () {
+      chart1 = echarts.init(document.getElementById("development-map")!);
+      chart2 = echarts.init(document.getElementById("development-map2")!);
+      chart1.setOption(option2);
+      chart2.setOption(option1);
+      window.addEventListener("resize", () => {
+        setTimeout(() => {
           chart1.resize();
           chart2.resize();
-        };
+        }, 200);
       });
     };
 

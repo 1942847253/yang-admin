@@ -14,7 +14,6 @@ interface ICache {
 export const getTreeMenus = (menuList: IMenuItem[]): ITreeMenuItem[] => {
   const treeMenuList = [] as ITreeMenuItem[];
   const cache: ICache = {};
-
   menuList.forEach((treeItem) => {
     cache[treeItem.rid] = treeItem;
   });
@@ -40,6 +39,8 @@ export const getTreeMenus = (menuList: IMenuItem[]): ITreeMenuItem[] => {
  * @author JJYang
  */
 export const generateRouter = (userRouters: ITreeMenuItem[]) => {
+
+
   let newRouters: RouteRecordRaw[] = userRouters.map((router: ITreeMenuItem) => {
     const isParent = router.pid === 0 && router.children;
     const fileName = router.path.match(/\/([^/]*)$/)![1];
@@ -54,6 +55,7 @@ export const generateRouter = (userRouters: ITreeMenuItem[]) => {
             /* @vite-ignore */ `../view${router.path}/${fileName}.vue`
         ],
     };
+
     if (isParent) {
       routes.redirect = router.children![0].path;
       routes.component = () =>
@@ -64,6 +66,7 @@ export const generateRouter = (userRouters: ITreeMenuItem[]) => {
     }
     return routes;
   });
+  console.log(newRouters);
   return newRouters;
 };
 

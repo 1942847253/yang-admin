@@ -19,7 +19,6 @@ export default defineConfig({
   resolve: {
     alias: {
       "src": resolve(__dirname, "src"),
-      _c: resolve(__dirname, "src/components"),
     },
   },
   server: {

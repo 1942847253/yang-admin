@@ -95,7 +95,7 @@ export default defineComponent({
 
     const handleCommand = () => {
       localStorage.clear();
-      router.replace("/login");
+      router.go(0);
     };
 
     const routerPush = (path: string) => {

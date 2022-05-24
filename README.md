@@ -19,7 +19,7 @@
 ## 文件说明
 
 
-- `db` 演示项目数据库文件
+- `db` 演示项目MongoDB数据库文件 
 - `server` 基于Express搭建的简易后台，负责用户，角色，菜单权限的Api接口发放
 - `yangAdmin` yangAdmin的所有前端代码
 

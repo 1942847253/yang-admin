@@ -1,5 +1,5 @@
 <template>
-  <div>StudentOperate</div>
+  <div>picture</div>
 </template>
 
 <script lang="ts">

@@ -13,6 +13,10 @@
   color: #fff !important;
   border: 1px solid #0960bd !important;
 }
+:deep(.el-switch.is-checked .el-switch__core) {
+  background-color: #000000;
+  border: 1px solid #4c4d4f;
+}
 
 .m-header {
   position: fixed;
@@ -26,7 +30,6 @@
     display: flex;
     padding-right: 6px;
     padding-left: 6px;
-    border-bottom: 1px solid #d9d9d9;
     height: 45px;
     line-height: 45px;
     align-items: center;
@@ -39,7 +42,7 @@
       cursor: pointer;
     }
     .menu-collapse:hover {
-      background-color: #f6f6f6;
+      background-color: #d7d7d748;
     }
     .to-scroll-left {
       cursor: pointer;
@@ -60,17 +63,17 @@
       padding: 12px 5px;
       height: 45px;
       font-size: 17px;
-      line-height: 45px;
+      line-height: 0px;
       margin-left: 2px;
     }
     .nav-config:hover {
-      background-color: #f6f6f6;
+      background-color: #d7d7d748;
     }
     .to-scroll-left:hover {
-      background-color: #f6f6f6;
+      background-color: #d7d7d748;
     }
     .to-scroll-right:hover {
-      background-color: #f6f6f6;
+      background-color: #d7d7d748;
     }
     .tag-list {
       flex-grow: 1;
@@ -98,10 +101,10 @@
         color: #000000;
       }
       .tag-item:deep(.el-icon:hover) {
-        background-color: #fff;
+        background-color: #d7d7d748;
       }
       .tag-item:deep(.el-icon) {
-        background-color: #fff;
+        background-color: #d7d7d748;
       }
     }
 
@@ -110,9 +113,7 @@
       padding: 11px 5px;
       cursor: pointer;
     }
-    .fullS-screen:hover {
-      background-color: #f6f6f6;
-    }
+
     .Avatar {
       width: 30px;
       margin-left: 5px;

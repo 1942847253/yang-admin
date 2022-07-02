@@ -1,14 +1,17 @@
 <template>
-  <div class="common-layout">
+  <div :class="store.dark && 'common-layout'" style="transition: background-color .4s ease;">
     <el-scrollbar height="100vh">
       <el-container>
-        <el-aside
-          :style="`--el-aside-width: ${!store.collapse ? '200px' : '55px'}`"
-          ><SideBar
-        /></el-aside>
+        <el-aside :style="`--el-aside-width: ${!store.collapse ? '200px' : '55px'}`">
+          <SideBar />
+        </el-aside>
         <el-container>
-          <el-header class="el-header"><Header /></el-header>
-          <el-main class="el-main"><Content /></el-main>
+          <el-header class="el-header">
+            <Header />
+          </el-header>
+          <el-main class="el-main">
+            <Content />
+          </el-main>
         </el-container>
       </el-container>
     </el-scrollbar>
@@ -39,6 +42,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.common-layout {
+  background-color: #1d1e1f;
+}
+
+
+
 .el-main {
   padding: 0 6px;
 }
@@ -47,9 +56,11 @@ export default {
   height: 100%;
   overflow: hidden;
 }
+
 .el-header {
   height: 50px;
 }
+
 .el-aside {
   transition: width 0.3s ease-in-out;
 }

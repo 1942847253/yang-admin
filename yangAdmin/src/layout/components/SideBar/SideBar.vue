@@ -1,30 +1,20 @@
 <template>
   <div class="side-bar">
-    <el-menu
-      router
-      :collapse="store.collapse"
-      :default-active="current"
-      active-text-color="#fff"
-      background-color="#001529"
-      @select="selectMenu"
-      :class="`el-menu-vertical-demo ${store.collapse && 'hideIcon'}`"
-      style="height: 100vh"
-      text-color="#ffffffa6"
-    >
+    <el-menu router :collapse="store.collapse" :default-active="current" active-text-color="#fff"
+      :background-color="`${store.dark ? '#1d1e1fbd' : '#001529'}`" @select="selectMenu"
+      :class="`el-menu-vertical-demo ${store.collapse && 'hideIcon'}`" style="height: 100vh" text-color="#ffffffa6">
       <div class="logo">
         <el-avatar :size="35" :src="Logo" />
         <span v-if="!store.collapse">&nbsp;YangAdmin</span>
       </div>
       <el-menu-item index="/index/home">
-        <el-icon><List /></el-icon>
+        <el-icon>
+          <List />
+        </el-icon>
         <template #title>首页</template>
       </el-menu-item>
       <div v-for="(item, index) of store.userRouters" :key="index">
-        <MenuItem
-          :index="(index + 1).toString()"
-          :collapse="store.collapse"
-          :item="item"
-        />
+        <MenuItem :index="(index + 1).toString()" :collapse="store.collapse" :item="item" />
       </div>
     </el-menu>
   </div>
@@ -65,25 +55,30 @@ export default defineComponent({
   top: 0;
   left: 0;
   width: 10px;
+  color: #1d1e1fbd;
 }
 
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
 }
+
 .el-menu--collapse {
   width: 60px;
   overflow: hidden;
 }
+
 .hideIcon:deep(.el-sub-menu .el-sub-menu__icon-arrow) {
   display: none;
 }
+
 .logo {
   display: flex;
   align-items: center;
   cursor: pointer;
   height: 48px;
   padding: 10px 4px 10px 5px;
+
   span {
     margin-left: 10px;
     font-size: 16px;
@@ -93,9 +88,11 @@ export default defineComponent({
     transition: all 0.5s ease;
   }
 }
+
 .avatar-logo {
   padding: 10px 0 5px 10px;
 }
+
 .el-menu-item.is-active {
   background-color: #0960bd !important;
 }

@@ -1,66 +1,51 @@
 <template>
-  <header
-    class="m-header"
-    :style="`width: calc(100% - ${!store.collapse ? '200' : '60'}px)`"
-  >
-    <div class="content">
+  <header class="m-header" :style="divDarkStyle()">
+    <div class="content" :style="`border-bottom: 1px solid ${store.dark ? '#4c4d4f' : '#d9d9d9'}`">
       <span class="menu-collapse" @click="changeCollapse">
-        <el-icon> <Fold v-if="!store.collapse" /><Expand v-else /> </el-icon>
+        <el-icon>
+          <Fold v-if="!store.collapse" />
+          <Expand v-else />
+        </el-icon>
       </span>
       <span @click="scrollToX('left')" class="to-scroll-left">
-        <el-icon><ArrowLeft /></el-icon>
+        <el-icon>
+          <ArrowLeft />
+        </el-icon>
       </span>
       <div class="tag-list" id="scroll-Box">
         <VueDraggableNext animation="300" :list="store.navList">
           <transition-group>
-            <el-tag
-              v-for="element of store.navList"
-              :key="element.path"
-              size="large"
-              :effect="element.path == current ? 'dark' : null"
-              :class="`tag-item ${
-                element.path === current ? 'avtive-router' : ''
-              }`"
-              :closable="element.path !== '/index/home'"
-              :hit="false"
-              @click="routerPush(element.path)"
-              @close="closeNav(element.path)"
-            >
+            <el-tag v-for="element of store.navList" :key="element.path" size="large"
+              :effect="element.path == current ? 'dark' : null" :class="`tag-item ${element.path === current ? 'avtive-router' : ''
+              }`" :closable="element.path !== '/index/home'" :hit="false" @click="routerPush(element.path)"
+              @close="closeNav(element.path)">
               {{ element.title }}
             </el-tag>
           </transition-group>
         </VueDraggableNext>
       </div>
       <span @click="scrollToX('right')" class="to-scroll-right">
-        <el-icon><ArrowRight /></el-icon>
+        <el-icon>
+          <ArrowRight />
+        </el-icon>
       </span>
       <el-dropdown trigger="click" @command="handleConfigNav">
-        <span class="nav-config">
-          <el-icon><ArrowDown /></el-icon>
+        <span :class="`nav-config`">
+          <el-icon>
+            <ArrowDown />
+          </el-icon>
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item
-              :disabled="current === '/index/home'"
-              command="close-current"
-              >关闭当前</el-dropdown-item
-            >
-            <el-dropdown-item
-              :disabled="store.navList.length <= 2 && current !== '/index/home'"
-              command="close-other"
-              >关闭其他</el-dropdown-item
-            >
+            <el-dropdown-item :disabled="current === '/index/home'" command="close-current">关闭当前</el-dropdown-item>
+            <el-dropdown-item :disabled="store.navList.length <= 2 && current !== '/index/home'" command="close-other">
+              关闭其他</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
-
-      <svg
-        @click="toggleFullScreen"
-        class="fullS-screen"
-        viewBox="0 0 1024 1024"
-        width="22"
-        height="22"
-      >
+      <el-switch v-model="store.dark" @change="darkSwitchChange" class="mt-2"
+        style="margin-left: 10px;margin-right: 10px" inline-prompt active-icon="Sunny" inactive-icon="Moon" />
+      <svg @click="toggleFullScreen" class="fullS-screen" viewBox="0 0 1024 1024" width="22" height="22">
         <path :d="fullScreenIcon" fill="#515151"></path>
       </svg>
       <div class="Avatar">
@@ -83,6 +68,8 @@ import { VueDraggableNext } from "vue-draggable-next";
 import { defineComponent, computed } from "vue";
 import { useUserStore } from "../../../store/userStore";
 import { fullScreenIcon, circleUrl } from "./baseData";
+
+
 
 export default defineComponent({
   name: "Header",
@@ -132,6 +119,18 @@ export default defineComponent({
       store.collapse = !store.collapse;
     };
 
+    const collapseSwitchChange = () => {
+      return `width: calc(100% - ${!store.collapse ? '200' : '60'}px);`
+    }
+
+    const darkSwitchChange = () => {
+      store.darkSwitch();
+    }
+
+    const divDarkStyle = () => {
+      return `transition: all .3s ease-in-out;width: calc(100% - ${!store.collapse ? '200' : '60'}px);background-color:${store.dark ? '#1d1e1f' : '#fff'}`
+    }
+
     const scrollToX = (direction: string) => {
       const scrollBox = document.getElementById("scroll-Box")!;
       if (direction === "right") {
@@ -163,6 +162,9 @@ export default defineComponent({
       toggleFullScreen,
       scrollToX,
       handleConfigNav,
+      darkSwitchChange,
+      collapseSwitchChange,
+      divDarkStyle,
     };
   },
 });

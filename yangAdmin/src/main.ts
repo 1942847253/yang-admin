@@ -3,6 +3,7 @@ import App from './App.vue'
 import store from './store'
 import router from './router/index'
 
+import 'element-plus/theme-chalk/dark/css-vars.css'
 import './assets/css/index.css'
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import 'element-plus/theme-chalk/el-loading.css';

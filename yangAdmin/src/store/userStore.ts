@@ -7,6 +7,8 @@ import { flatter, getTreeMenus } from '../utils/index'
 export const useUserStore = defineStore('user', {
     state: () => {
         return {
+            test: document.querySelector('html')!.className,
+            dark: false,
             menuList: [] as IMenuItem[],
             userRouters: [] as ITreeMenuItem[],
             navList: [{ title: "首页", path: "/index/home" }] as INavItem[],
@@ -54,6 +56,17 @@ export const useUserStore = defineStore('user', {
         cloneOtherNav(currrentPath: string) {
             this.navList = [{ title: "首页", path: "/index/home" }];
             this.setNavList(currrentPath);
+        },
+
+        // 黑夜模式切换
+        darkSwitch() {
+            const html = document.querySelector('html')!;
+            if (this.dark) {
+                html.className = 'dark';
+
+            } else {
+                html.className = '';
+            }
         }
 
     }

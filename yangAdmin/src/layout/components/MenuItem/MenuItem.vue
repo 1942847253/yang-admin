@@ -1,5 +1,5 @@
 <template>
-  <el-sub-menu v-if="item.children && item.children.length >= 1" :index="index + Date.now()">
+  <el-sub-menu v-if="item.children && item.children.length > 1" :index="index + Date.now()">
     <template #title>
       <el-icon>
         <component :is="item.icon"></component>
@@ -10,8 +10,7 @@
       <menu-item :index="(i + 1).toString()" :item="c"></menu-item>
     </div>
   </el-sub-menu>
-
-
+  
   <el-menu-item :style="getItemMenuStyle()" v-else-if="item.children && item.children.length === 1"
     :index="item.children[0].path">
     <el-icon>
